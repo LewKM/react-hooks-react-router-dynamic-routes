@@ -1,25 +1,26 @@
 import React from "react";
-import { Route, useRouteMatch } from "react-router-dom";
-import MoviesList from "./MoviesList";
-import MovieShow from "./MovieShow";
+import { useParams } from "react-router-dom";
 
-function MoviesPage({ movies }) {
-  const match = useRouteMatch();
+// Here we add `match` to the arguments 
+//   so we can access the path information
+// in `routerProps` that is passed from MoviesPage.js
+function MovieShow({ movies }) {
+  // call useParams to access the `params` from the url:
+  // the dynamic portion of our /movies/:movieId path
+  const params = useParams();
+  console.log(params);
 
   return (
     <div>
-      <MoviesList movies={movies} />
-
-      {/* Adding code to show a message to the user to select a movie if they haven't yet */}
-      <Route exact path={match.url}>
-        <h3>Choose a movie from the list above</h3>
-      </Route>
-
-      <Route path={`${match.url}/:movieId`}>
-        <MovieShow movies={movies} />
-      </Route>
+      {/*
+        And here we access the `movieId` stored 
+           in `params` to render 
+        information about the selected movie
+      */}
+      <h3>{movies[params.movieId].title}</h3>
     </div>
   );
 }
 
-export default MoviesPage;
+
+export default MovieShow
